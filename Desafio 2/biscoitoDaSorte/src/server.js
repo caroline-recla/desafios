@@ -7,7 +7,7 @@ function fraseAleatoria() {
 }
 
 
-function trazerFrase() {
+async function trazerFrase() {
 
     fetch('db.json')
         .then(response => response.json())
@@ -18,7 +18,6 @@ function trazerFrase() {
             document.getElementById("textoSorte").innerText = mensagem;
         })
         .catch(error => console.log(error.message));
-
 }
 
 
