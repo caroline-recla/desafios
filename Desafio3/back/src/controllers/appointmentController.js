@@ -17,7 +17,7 @@ class appointmentController {
     static async getAllAppointments(req, res) {
         try {
             const listAppointments = await Appointment.find({});
-            res.status(200).json(listAppointments);
+            res.status(200).send('lista de consultas').json(listAppointments);
         } catch (error) {
             res.status(500).json({ msg: `${error} - Não foi possivel retornar a lista de consultas` });
         }
@@ -59,6 +59,7 @@ class appointmentController {
     };
 
     //filter by params
+    
 };
 
 
