@@ -1,7 +1,6 @@
-import Employee from "../models/employee.js";
+import Employee from "../models/Employee.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import employee from "../models/employee.js";
 
 class employeeController {
     //create 
@@ -125,7 +124,7 @@ class employeeController {
         const id = req.params.id;
 
         try{
-            const employeeCheckExists = await employee.findById(id, "-passaword");
+            const employeeCheckExists = await Employee.findById(id, "-passaword");
     
             if(!employeeCheckExists){
                 res.status(404).json({msg:"Funcionário não encontrado!"});
