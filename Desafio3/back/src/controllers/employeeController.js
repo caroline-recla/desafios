@@ -53,7 +53,7 @@ class employeeController {
 
 
         if (!password == confirmpassword) {
-            return res.statsu(422).json({ msg: "Senhas não coreespondem" });
+            return res.statsu(400).json({ msg: "Senhas não coreespondem" });
         }
 
 
