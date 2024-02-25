@@ -48,7 +48,7 @@ class employeeController {
             return res.status(400).json({ msg: "Senha Obrigatória" });
         }
         if (!confirmpassword) {
-            return res.status(422).json({ msg: "Senha Obrigatória!" });
+            return res.status(400).json({ msg: "Senha Obrigatória!" });
         }
 
 
