@@ -62,7 +62,7 @@ class employeeController {
         const employeeCpfExist = await Employee.findOne({ cpf: cpf });
 
         if (!employeeCodeExist || !employeeCpfExist) {
-            res.status(422).json({ msg: "Funcionário já cadastrado" });
+            res.status(400).json({ msg: "Funcionário já cadastrado" });
         }
 
         const salt = await bcrypt.genSalt(12);
@@ -87,10 +87,10 @@ class employeeController {
         const { employeeCode, password } = req.body;
 
         if (!employeeCode) {
-            res.status(422).json({ msg: "Código do funcionário obrigatório." });
+            res.status(400).json({ msg: "Código do funcionário obrigatório." });
         }
         if (!password) {
-            res.status(422).json({ msg: "Senha obrigatória" });
+            res.status(400).json({ msg: "Senha obrigatória" });
         }
 
         const employeeExist = await Employee.findOne({ employeeCode: employeeCode });
@@ -102,54 +102,54 @@ class employeeController {
         const checkPassword = bcrypt.compare(password, employeeExist.password);
 
         if (!checkPassword) {
-            return res.status(422).json({ msg: "Senha Incorreta" });
+            return res.status(400).json({ msg: "Senha Incorreta" });
         }
 
         try {
             const secret = process.env.SECRET;
 
             const token = jwt.sign(
-                {id: Employee._id},secret
+                { id: Employee._id }, secret
             );
 
-            res.status(200).json({msg:"Autenticação Realizada com sucesso!",token});
+            res.status(200).json({ msg: "Autenticação Realizada com sucesso!", token });
         } catch (error) {
             res.status(500).json({ msg: "Erro no servidor, tente novamente mais tarde!" })
         }
     }
 
-    static async privateRouterById(req,res) {
+    static async privateRouterById(req, res) {
         const id = req.params.id;
 
-        try{
+        try {
             const employeeCheckExists = await Employee.findById(id, "-passaword");
-    
-            if(!employeeCheckExists){
-                res.status(404).json({msg:"Funcionário não encontrado!"});
-            }
-    
-            res.status(200).json({Employee : employeeCheckExists});
 
-        }catch(error){
-            res.status(500).json({msg:"Erro no servidor, tente novamente!"});
+            if (!employeeCheckExists) {
+                res.status(404).json({ msg: "Funcionário não encontrado!" });
+            }
+
+            res.status(200).json({ Employee: employeeCheckExists });
+
+        } catch (error) {
+            res.status(500).json({ msg: "Erro no servidor, tente novamente!" });
         }
 
     }
 
-    static async tokenCheck(req,res, next) {
+    static async tokenCheck(req, res, next) {
         const headerAuth = req.headers['authorization'];
         const token = headerAuth && headerAuth.split(' ')[1];
 
-        if(!token){
-            return res.status(401).json({msg:"Acesso Negado!"});
+        if (!token) {
+            return res.status(401).json({ msg: "Acesso Negado!" });
         };
 
-        try{
+        try {
             const secret = process.env.SECRET;
-            jwt.verify(token,secret);
+            jwt.verify(token, secret);
             next();
-        }catch(error){
-            res.status(400).json({msg:"Token inválido"});
+        } catch (error) {
+            res.status(400).json({ msg: "Token inválido" });
         }
     }
 };
