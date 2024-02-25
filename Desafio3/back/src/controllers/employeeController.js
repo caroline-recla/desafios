@@ -14,8 +14,6 @@ class employeeController {
     };
 
 
-    //trazer funcionario pelo id 
-    //autenticacao de usuário
     static async getEmployeeById(req, res) {
         try {
 

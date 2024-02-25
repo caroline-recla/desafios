@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 const employeeSchema = new mongoose.Schema({
     id:{type:mongoose.Schema.Types.ObjectId},
     cpf:{type:String},
-    employeeCode:{type:Number, require:true},
+    employeeCode:{type:String, require:true},
     name:{type:String},
     password:{type:String},
     confirmpassword:{type:String}

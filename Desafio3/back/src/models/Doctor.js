@@ -5,7 +5,7 @@ const doctorSchema = new mongoose.Schema({
     id: { type: mongoose.Schema.Types.ObjectId },
     name: { type: String },
     specialization: { type: String },
-    appointment:{type: mongoose.Schema.Types.ObjectId, ref:'Appointment', require:true}
+    appointment:[{type: mongoose.Schema.Types.ObjectId, ref:'Appointment', require:true}]
 }, { versionKey: false });
 
 

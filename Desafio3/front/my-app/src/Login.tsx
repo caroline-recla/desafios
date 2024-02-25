@@ -1,46 +1,52 @@
-import { VStack, Text, Box, FormControl, Input, Button, Link } from "native-base";
+import { VStack, Text, Box, FormControl, Input, Button, Link, Image } from "native-base";
 import { TouchableOpacity } from 'react-native';
+import AuthenticateLogin from './services/AuthenticateService';
 
 import { Title } from "./components/title";
+import {InputText} from './components/InputText'
+import { useState } from "react";
 
-export default function Login({ navigation }: { navigation: any }) {
+export default function Login({ navigation }: any) {
+
+    const [employeeCode, setEmployeeCode] = useState('');
+    const [password, setPassword] = useState('');
+
+    async function authenticateLogin(){
+        const returnAuthenticate = await AuthenticateLogin(employeeCode,password);
+        if(returnAuthenticate){
+            navigation.replace('Home')
+        }else{
+            console.log(`Falha de autenticação`);
+        }
+    }
+
     return (
         <VStack flex={1} alignItems='center' justifyContent='center' p={5} backgroundColor='#ADCFE7' >
-            <Text
-                fontFamily='sans-serif'
-                fontSize='lg'>
-                Centro Médico Esperança
-            </Text>
+            <Image
+                source={require('./assets/logoClinica.png')}
+                style={{ width: 200, height: 200 }} 
+            />
             <Title>Login</Title>
-            <Box minWidth='400px' margin='50px auto' padding='20px' borderRadius='5px'>
-                <FormControl mt={3}>
-                    <FormControl.Label>Código Funcionário</FormControl.Label>
-                    <Input
-                        placeholder='Insira seu código de funcionário'
-                        size='lg'
-                        w="100%"
-                        borderRadius='lg'
-                        bgColor='gray.100'
-                        shadow={3}
-
-                        type="text" maxLength={5}
-                    />
-                    <FormControl.Label>Senha</FormControl.Label>
-                    <Input
-                        placeholder='Insira sua senha'
-                        size='lg'
-                        w="100%"
-                        borderRadius='lg'
-                        bgColor='gray.100'
-                        shadow={3}
-                    />
-                </FormControl>
+            <Box minWidth='400px' margin='50px auto' padding='10px' borderRadius='5px'>
+                <InputText
+                    label="Código funcionário"
+                    placeholder="Insira seu Código de Funcionário"
+                    value={employeeCode}
+                    onChangeText={setEmployeeCode}
+                />
+                <InputText
+                    label="Senha"
+                    placeholder="Insira sua senha"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                />
                 <Button
                     w="100%"
                     bg="blue.800"
                     mt={10}
                     borderRadius="lg"
-                    onPress={() => navigation.navigate('Home')}
+                    onPress={authenticateLogin}
                 >
                     Entrar
                 </Button>
