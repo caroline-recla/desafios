@@ -36,16 +36,16 @@ class employeeController {
         const { cpf, employeeCode, name, password, confirmpassword } = req.body;
 
         if (!cpf) {
-            return res.status(422).json({ msg: "CPF do funcionnário é obrigatório" });
+            return res.status(400).json({ msg: "CPF do funcionnário é obrigatório" });
         };
         if (!employeeCode) {
-            return res.status(422).json({ msg: "Código do funcionário é obrigatório!" });
+            return res.status(400).json({ msg: "Código do funcionário é obrigatório!" });
         };
         if (!name) {
-            return res.status(422).json({ msg: "Nome do Funcionário é obrigatório." });
+            return res.status(400).json({ msg: "Nome do Funcionário é obrigatório." });
         }
         if (!password) {
-            return res.status(422).json({ msg: "Senha Obrigatória" });
+            return res.status(400).json({ msg: "Senha Obrigatória" });
         }
         if (!confirmpassword) {
             return res.status(422).json({ msg: "Senha Obrigatória!" });
