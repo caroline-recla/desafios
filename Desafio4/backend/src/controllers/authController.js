@@ -1,36 +1,8 @@
-import Employee from "../models/Employee.js";
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-class employeeController {
-    //create 
-    static async registerEmployee(req, res) {
-        try {
-            const newEmployee = await Employee.create(req.body);
-            res.status(201).json({ message: "Funcionário Cadastrado.", Employee: newEmployee });
-        } catch (error) {
-            res.status(500).json({ message: `${error.message} - Falha ao cadastrar novo funcionário` })
-        };
-    };
+class authController{
 
-
-    static async getEmployeeById(req, res) {
-        try {
-            const employeeFound = await Employee.find(req.params.id);
-            if (!Employee) {
-                return res.status(404).json({ error: 'Employee not found!' });
-            }
-            res.status(200).json(employeeFound);
-
-        } catch (error) {
-
-            res.status(500).json({ msg: `${error.message} - error: error.message` });
-
-        };
-    };
-
-
-    // register-user
     static async registerWithToken(req, res) {
         const { cpf, employeeCode, name, password, confirmpassword } = req.body;
 
@@ -60,7 +32,7 @@ class employeeController {
         const employeeCodeExist = await Employee.findOne({ employeeCode: employeeCode });
         const employeeCpfExist = await Employee.findOne({ cpf: cpf });
 
-        if (employeeCodeExist || employeeCpfExist) {
+        if (!employeeCodeExist || !employeeCpfExist) {
             res.status(400).json({ msg: "Funcionário já cadastrado" });
         }
 
@@ -151,8 +123,6 @@ class employeeController {
             res.status(400).json({ msg: "Token inválido" });
         }
     }
-};
+}
 
-
-
-export default employeeController;
+module.exports = authController
