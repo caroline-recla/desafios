@@ -1,0 +1,44 @@
+[
+    {
+        employeeCode:67895,
+        name:'Juliana Garcia Freitas',
+        cpf:'83001390018',
+        password:'1234',
+        confirmpassword:'1234'
+    },
+    {
+        employeeCode:12345,
+        name:'Dominike Righin',
+        cpf:'71939011094',
+        password:'1234',
+        confirmpassword:'1234'
+    },
+    {
+        employeeCode:44535,
+        name:'Vinicius Souza Morais',
+        cpf:'07985810005',
+        password:'1234',
+        confirmpassword:'1234'
+    },
+    {
+        employeeCode:33645,
+        name:'Bruna Costa Viera',
+        cpf:'80236082078',
+        password:'1234',
+        confirmpassword:'1234'
+    },
+    {
+        employeeCode:22635,
+        name:'John Demetrio',
+        cpf:'19563158024',
+        password:'1234',
+        confirmpassword:'1234'
+    }
+
+]
+
+ employeeCode:DataTypes.INTEGER,
+            name:DataTypes.STRING,
+            cpf:DataTypes.STRING,
+            password: DataTypes.STRING,
+            confirmpassword:DataTypes.STRING

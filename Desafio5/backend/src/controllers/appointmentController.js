@@ -1,5 +1,5 @@
 const Appointment =  require("../models/Appointment.js");
-const Doctor = require('../models/Doctors.js');
+const Doctor = require('../models/Doctor.js');
 
 class appointmentController {
 

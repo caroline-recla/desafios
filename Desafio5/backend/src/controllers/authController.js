@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Employee = require('../models/Employee.js')
 
 class authController{
 
@@ -25,16 +24,17 @@ class authController{
 
 
         if (!password == confirmpassword) {
-            return res.statsu(400).json({ msg: "Senhas não correspondem" });
+            return res.statsu(400).json({ msg: "Senhas não coreespondem" });
         }
 
 
-        // const employeeCodeExist = await Employee.findOne({ where:{employeeCode: employeeCode} });
-        // const employeeCpfExist = await Employee.findOne({ cpf: cpf });
 
-        // if (employeeCodeExist || employeeCpfExist) {
-        //     res.status(400).json({ msg: "Funcionário já cadastrado" });
-        // }
+        const employeeCodeExist = await Employee.findOne({ employeeCode: employeeCode });
+        const employeeCpfExist = await Employee.findOne({ cpf: cpf });
+
+        if (!employeeCodeExist || !employeeCpfExist) {
+            res.status(400).json({ msg: "Funcionário já cadastrado" });
+        }
 
         const salt = await bcrypt.genSalt(12);
         const passwordHash = await bcrypt.hash(password, salt);
@@ -48,7 +48,7 @@ class authController{
 
         try {
             NewEmployee.save();
-            res.status(201).json({ msg: "Novo Funcionário Criado com Sucesso!" , NewEmployee})
+            res.status(201).json({ msg: "Novo Funcionário Criado com Sucesso!" })
         } catch (error) {
             res.status(500).json({ msg: "Aconteceu algo no servidor, tente novamente." })
         }
@@ -125,4 +125,4 @@ class authController{
     }
 }
 
-module.exports = authController;
+module.exports = authController
