@@ -27,7 +27,14 @@ module.exports = {
     phoneNumber:{
       type:DataTypes.STRING,
       allowNull:false
-    }
+    },
+    appointment:[{
+        type: Sequelize.INTEGER,
+        allowNull:false,
+        references:{ model: 'appointment', key: 'id'},
+        onUpdate:'CASCADE',
+        onDelete:'CASCADE'
+    }]
    });
   },
 

@@ -1,14 +1,13 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Employee = require('../models/Employee.js')
-
+const Employee = require('../models/')
 class authController{
 
     static async registerWithToken(req, res) {
         const { cpf, employeeCode, name, password, confirmpassword } = req.body;
 
         if (!cpf) {
-            return res.status(400).json({ msg: "CPF do funcionnário é obrigatório" });
+            return res.status(400).json({ msg: "CPF do funcionário é obrigatório" });
         };
         if (!employeeCode) {
             return res.status(400).json({ msg: "Código do funcionário é obrigatório!" });
@@ -29,17 +28,17 @@ class authController{
         }
 
 
-        // const employeeCodeExist = await Employee.findOne({ where:{employeeCode: employeeCode} });
-        // const employeeCpfExist = await Employee.findOne({ cpf: cpf });
+        const employeeCodeExist = await Employee.findOne({where:{ employeeCode : employeeCode}})
+        const employeeCpfExist = await Employee.findOne({ where: {cpf: cpf} });
 
-        // if (employeeCodeExist || employeeCpfExist) {
-        //     res.status(400).json({ msg: "Funcionário já cadastrado" });
-        // }
+        if (employeeCodeExist || employeeCpfExist) {
+            res.status(400).json({ msg: "Funcionário já cadastrado" });
+        }
 
         const salt = await bcrypt.genSalt(12);
         const passwordHash = await bcrypt.hash(password, salt);
 
-        const NewEmployee = new Employee({
+        const NewEmployee = await new Employee.create({
             cpf,
             employeeCode,
             name,

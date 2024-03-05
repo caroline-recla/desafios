@@ -1,16 +1,21 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model } = require('sequelize');
 
-class Doctors extends Model{
-    static init(sequelize) {
-        super.init({
-            name:DataTypes.STRING,
-            specialization:DataTypes.STRING
-        },{
-            sequelize,
-            modelName:'Doctors',
-            tableName:'doctors'
-        })
+module.exports = (sequelize, DataTypes) =>{
+    class Doctors extends Model {
+
+
+        static associate(models) {
+            Doctors.hasMany(models.Appointment, { foreignKey: 'appointment_id', as : 'appointments' });
+        }
+        
     }
-}
-
-module.exports = Doctors;
+    Doctors.init({
+        name:DataTypes.STRING,
+        specialization:DataTypes.STRING
+    }, {
+        sequelize,
+        modelName:'Doctors',
+        tableName:'doctors'
+    })
+    return Doctors;
+};

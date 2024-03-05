@@ -37,8 +37,4 @@
 
 ]
 
- employeeCode:DataTypes.INTEGER,
-            name:DataTypes.STRING,
-            cpf:DataTypes.STRING,
-            password: DataTypes.STRING,
-            confirmpassword:DataTypes.STRING
+ 
