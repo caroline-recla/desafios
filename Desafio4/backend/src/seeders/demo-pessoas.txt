@@ -1,10 +1,10 @@
 [
     {
-        employeeCode:67895,
-        name:'Juliana Garcia Freitas',
-        cpf:'83001390018',
-        password:'1234',
-        confirmpassword:'1234'
+        "employeeCode":67895,
+        "name":"Juliana Garcia Freitas",
+        "cpf":'83001390018',
+        "password":"1234",
+        "confirmpassword":"1234"
     },
     {
         employeeCode:12345,

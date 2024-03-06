@@ -1,22 +1,19 @@
-const { Model } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 
-module.exports = (sequelize, DataTypes) =>{
-    class Appointment extends Model {
+class Appointment extends Model {
+    static init(sequelize) {
+        super.init({
+            patient_id:DataTypes.INTEGER,
+            doctor_id:DataTypes.INTEGER
+        }, {
+            modelName: 'Appointment',
+            freezeTableName: true,
+            tableName: 'appointment',
+            sequelize,
+            timestamps:false
 
-
-        static associate(models) {
-            Appointment.belongsTo(models.Patient, { foreignKey: 'patient_id', as : 'patient' });
-            Appointment.hasOne(models.Doctors, { foreignKey: 'doctor_id', as : 'doctors' });
-        }
-        
+        })
     }
-    Appointment.init({
-        data_appointment: DataTypes.DATE,
-    }, {
-        sequelize,
-        modelName:'Appointment',
-        tableName:'appointments'
-    })
-    return Appointment;
 };
 
+module.exports = Appointment;

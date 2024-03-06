@@ -1,23 +1,19 @@
-const { Model } = require('sequelize');
-
-module.exports = (sequelize, DataTypes) => {
-    class Patient extends Model {
-
-
-        static associate(models) {
-            Patient.hasMany(models.Appointment, { foreignKey: 'appointment_id', as: 'appointment' });
-        }
-
+const { Model,DataTypes } = require('sequelize');
+class Appointment extends Model {
+    static init(sequelize) {
+        super.init({
+            cpf: DataTypes.STRING,
+            dataBirth: DataTypes.STRING,
+            name: DataTypes.STRING,
+            phoneNumber: DataTypes.STRING,
+        }, {
+            sequelize,
+            modelName: 'Patient',
+            tableName: 'patient',
+            timestamps:false
+        })
     }
-    Patient.init({
-        cpf: DataTypes.STRING,
-        dataBirth: DataTypes.DATEONLY,
-        name: DataTypes.STRING,
-        phoneNumber: DataTypes.STRING,
-    }, {
-        sequelize,
-        modelName: 'Patient',
-        tableName: 'patients'
-    })
-    return Patient;
 };
+
+
+module.exports = Appointment;

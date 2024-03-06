@@ -1,15 +1,14 @@
-const Appointment =  require("../models/Appointment.js");
-const Doctor = require('../models/Doctors.js');
-
+const { DataTypes } = require("sequelize");
+const Appointment = require("../models/Appointment.js");
 class appointmentController {
 
-    //crud appointment
     static async newAppointment(req, res) {
-        const newAppointment = req.body;
-
+        const {patient_id, doctor_id, data_appointment} = req.body;
+    
+        const createdAppointment = await Appointment.create({patient_id, doctor_id, data_appointment: Date.now(), createdAt: Date.now()});
+        
         try {
-            const AppointmentFull = { ...newAppointment}
-            const createdAppointment = await Appointment.appointment.create(AppointmentFull);
+            createdAppointment;
             res.status(201).json({ msg: "Nova consulta marcada", Appointment: createdAppointment });
         } catch (error) {
             res.json({ msg: `${error} - Não foi possivel marcar a consulta`, erro: error });
@@ -19,7 +18,7 @@ class appointmentController {
     //list Appointment
     static async getAllAppointments(req, res) {
         try {
-            const listAppointments = await Appointment.appointment.find({});
+            const listAppointments = await Appointment.findAll();
             res.status(200).json(listAppointments);
         } catch (error) {
             res.status(500).json({ msg: `${error} - Não foi possivel retornar a lista de consultas` });
@@ -30,7 +29,7 @@ class appointmentController {
     static async getAppointmentById(req, res) {
         try {
             const appointmentId = req.params.id;
-            const findAppointment = await Appointment.appointment.findById(appointmentId);
+            const findAppointment = await Appointment.findById(appointmentId);
             res.status(200).json(findAppointment);
         } catch (error) {
             res.status(500).json({ msg: `${error} - Falha na requisição de consulta específica` });
@@ -41,7 +40,7 @@ class appointmentController {
     static async updateAppointment(req,res){
         try{
             const appointmentId = req.params.id;
-            await Appointment.appointment.findByIdAndUpdate(appointmentId,req.body);
+            await Appointment.findByIdAndUpdate(appointmentId,req.body);
             res.status(200).json({msg:'Registro de paciente atualizado'});
             
         }catch(error){
@@ -53,15 +52,14 @@ class appointmentController {
     static async deleteAppointment(req,res){
         try{
             const appointmentId = req.params.id;
-            await Appointment.appointment.findByIdAndDelete(appointmentId);
+            await Appointment.findByIdAndDelete(appointmentId);
             res.status(200).json('Consulta excluído');
         }catch(error){
             res.status(500).json({msg:`${error} - Falha na exclusão de consulta`});
         };
     };
 
-    //filter by params
-    
+
 };
 
 

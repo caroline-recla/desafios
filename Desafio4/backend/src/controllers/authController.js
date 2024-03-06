@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Employee = require('../models/')
-class authController{
+const Employee = require('../models/Employee.js');
 
+class authController {
     static async registerWithToken(req, res) {
         const { cpf, employeeCode, name, password, confirmpassword } = req.body;
 
@@ -27,29 +27,27 @@ class authController{
             return res.statsu(400).json({ msg: "Senhas não correspondem" });
         }
 
+        // try {
+        //     const employeeCodeExist = await Employee.findOne({ where: { employeeCode: employeeCode } })
+        //     const employeeCpfExist = await Employee.findOne({ where: { cpf: cpf } });
 
-        const employeeCodeExist = await Employee.findOne({where:{ employeeCode : employeeCode}})
-        const employeeCpfExist = await Employee.findOne({ where: {cpf: cpf} });
-
-        if (employeeCodeExist || employeeCpfExist) {
-            res.status(400).json({ msg: "Funcionário já cadastrado" });
-        }
+        //     if (employeeCodeExist || employeeCpfExist) {
+        //         res.status(400).json({ msg: "Funcionário já cadastrado" });
+        //     }
+        // }catch(error){
+        //     res.status(500).json({ msg: "Erro ao tentar comparar funcionário no banco." })
+        // }
 
         const salt = await bcrypt.genSalt(12);
         const passwordHash = await bcrypt.hash(password, salt);
-
-        const NewEmployee = await new Employee.create({
-            cpf,
-            employeeCode,
-            name,
-            password: passwordHash,
-        })
-
+        const newEmployee = Employee.create({ cpf, employeeCode, name, password: passwordHash, createdAt:Date.now() });
+        
         try {
-            NewEmployee.save();
-            res.status(201).json({ msg: "Novo Funcionário Criado com Sucesso!" , NewEmployee})
+            newEmployee;
+            res.status(201).json({ msg: "Novo Funcionário Criado com Sucesso!", newEmployee});
+
         } catch (error) {
-            res.status(500).json({ msg: "Aconteceu algo no servidor, tente novamente." })
+            res.status(500).json({ msg: `Erro ao cadastrar novo funcionário. ${error}` })
         }
     }
 
@@ -63,7 +61,7 @@ class authController{
             res.status(400).json({ msg: "Senha obrigatória" });
         }
 
-        const employeeExist = await Employee.findOne({ employeeCode: employeeCode });
+        const employeeExist = await Employee.findOne({where: {employeeCode: employeeCode} });
 
         if (!employeeExist) {
             res.status(404).json({ msg: "Funcionário não encontrado" });
@@ -84,7 +82,7 @@ class authController{
 
             res.status(200).json({ msg: "Autenticação Realizada com sucesso!", token });
         } catch (error) {
-            res.status(500).json({ msg: "Erro no servidor, tente novamente mais tarde!" })
+            res.status(500).json({ msg: "Erro de login" })
         }
     }
 

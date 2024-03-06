@@ -1,16 +1,18 @@
 const { Model, DataTypes } = require('sequelize');
 
-class Employee extends Model{
+class Employee extends Model {
     static init(sequelize) {
         super.init({
-            employeeCode:DataTypes.INTEGER,
-            name:DataTypes.STRING,
-            cpf:DataTypes.STRING,
-            password: DataTypes.STRING
-        },{
+            employeeCode: DataTypes.INTEGER,
+            name: DataTypes.STRING,
+            cpf: DataTypes.STRING,
+            password: DataTypes.STRING,
+        }, {
+            modelName: "Employee",
+            freezeTableName: true,
+            tableName: "employee",
             sequelize,
-            modelName:'Employee',
-            tableName:'employees'
+            timestamps:false
         })
     }
 }
