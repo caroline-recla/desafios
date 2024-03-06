@@ -40,11 +40,11 @@ class authController {
 
         const salt = await bcrypt.genSalt(12);
         const passwordHash = await bcrypt.hash(password, salt);
-        const newEmployee = Employee.create({ cpf, employeeCode, name, password: passwordHash, createdAt:Date.now() });
-        
+        const newEmployee = Employee.create({ cpf, employeeCode, name, password: passwordHash, createdAt: Date.now() });
+
         try {
             newEmployee;
-            res.status(201).json({ msg: "Novo Funcionário Criado com Sucesso!", newEmployee});
+            res.status(201).json({ msg: "Novo Funcionário Criado com Sucesso!", newEmployee });
 
         } catch (error) {
             res.status(500).json({ msg: `Erro ao cadastrar novo funcionário. ${error}` })
@@ -61,7 +61,7 @@ class authController {
             res.status(400).json({ msg: "Senha obrigatória" });
         }
 
-        const employeeExist = await Employee.findOne({where: {employeeCode: employeeCode} });
+        const employeeExist = await Employee.findOne({ where: { employeeCode: employeeCode } });
 
         if (!employeeExist) {
             res.status(404).json({ msg: "Funcionário não encontrado" });
@@ -73,16 +73,14 @@ class authController {
             return res.status(400).json({ msg: "Senha Incorreta" });
         }
 
+
         try {
             const secret = process.env.SECRET;
+            const token = jwt.sign({ id: Employee._id}, secret);
 
-            const token = jwt.sign(
-                { id: Employee._id }, secret
-            );
-
-            res.status(200).json({ msg: "Autenticação Realizada com sucesso!", token });
+            res.status(201).json({ msg: "Autenticação Realizada com sucesso!", token });
         } catch (error) {
-            res.status(500).json({ msg: "Erro de login" })
+            res.status(500).json({ msg: "Erro de login" , error});
         }
     }
 
