@@ -1,18 +1,20 @@
 const { Model, DataTypes } = require('sequelize');
 
-class UserEmployee extends Model{
+class Employee extends Model {
     static init(sequelize) {
         super.init({
-            employeeCode:DataTypes.INTEGER,
-            name:DataTypes.STRING,
-            cpf:DataTypes.STRING,
+            employeeCode: DataTypes.INTEGER,
+            name: DataTypes.STRING,
+            cpf: DataTypes.STRING,
             password: DataTypes.STRING,
-            confirmpassword:DataTypes.STRING
-
-        },{
-            sequelize
+        }, {
+            modelName: "Employee",
+            freezeTableName: true,
+            tableName: "employee",
+            sequelize,
+            timestamps:false
         })
     }
 }
 
-module.exports = UserEmployee;
+module.exports = Employee;

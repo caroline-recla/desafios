@@ -9,7 +9,6 @@ async function newEmployee(cpf:string, employeeCode:string,name:string, password
             password :password,
             confirmpassword :confirmpassword
         });
-        console.log(newRegister.data);
         return newRegister.data
     }catch(error){
         console.log(`Ocorreu um erro - ${error}`);

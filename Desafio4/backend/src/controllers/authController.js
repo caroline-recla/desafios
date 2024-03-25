@@ -27,16 +27,16 @@ class authController {
             return res.statsu(400).json({ msg: "Senhas não correspondem" });
         }
 
-        // try {
-        //     const employeeCodeExist = await Employee.findOne({ where: { employeeCode: employeeCode } })
-        //     const employeeCpfExist = await Employee.findOne({ where: { cpf: cpf } });
+        try {
+            const employeeCodeExist = await Employee.findOne({ where: { employeeCode: employeeCode } })
+            const employeeCpfExist = await Employee.findOne({ where: { cpf: cpf } });
 
-        //     if (employeeCodeExist || employeeCpfExist) {
-        //         res.status(400).json({ msg: "Funcionário já cadastrado" });
-        //     }
-        // }catch(error){
-        //     res.status(500).json({ msg: "Erro ao tentar comparar funcionário no banco." })
-        // }
+            if (employeeCodeExist || employeeCpfExist) {
+                res.status(400).json({ msg: "Funcionário já cadastrado" });
+            }
+        }catch(error){
+            res.status(500).json({ msg: "Erro ao tentar comparar funcionário no banco." })
+        }
 
         const salt = await bcrypt.genSalt(12);
         const passwordHash = await bcrypt.hash(password, salt);

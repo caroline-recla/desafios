@@ -1,16 +1,26 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require("sequelize");
 
-class Appointment extends Model{
-    static init(sequelize) {
-        super.init({
-            patient_id:DataTypes.INTEGER,
-            doctor_id:DataTypes.INTEGER,
-            data_appointment: DataTypes.DATE,
+class Appointment extends Model {
+  static init(sequelize) {
+    super.init(
+      {
+        patient_cpf: DataTypes.STRING,
+        patient_name: DataTypes.STRING,
+        patient_birthDate: DataTypes.STRING,
+        patient_phone: DataTypes.STRING,
 
-        },{
-            sequelize
-        })
-    }
+        doctor_name: DataTypes.STRING,
+        doctor_specialisation: DataTypes.STRING,
+      },
+      {
+        modelName: "Appointment",
+        freezeTableName: true,
+        tableName: "appointment",
+        sequelize,
+        timestamps: false,
+      }
+    );
+  }
 }
 
 module.exports = Appointment;

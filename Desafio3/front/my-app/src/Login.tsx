@@ -1,4 +1,4 @@
-import { VStack, Text, Box, FormControl, Input, Button, Link, Image } from "native-base";
+import { VStack, Text, Box, Button, Image } from "native-base";
 import { TouchableOpacity } from 'react-native';
 import AuthenticateLogin from './services/AuthenticateService';
 

@@ -21,9 +21,10 @@ export default function Cadastro() {
         setFormValues({ ...formValues, [name]: value });
     };
 
-    async function NewEmployee(){
+    async function NewEmployee({navigation} : any ){
         const returnAuthenticate = await newEmployee(cpf,employeeCode,name, password, confirmpassword);
         if(returnAuthenticate){
+            navigation.replace('Home');
             console.log("Usuário Cadastrado");
         }else{
             console.log(`Falha de autenticação`);
@@ -107,9 +108,9 @@ export default function Cadastro() {
                     bg="blue.800"
                     mt={10}
                     borderRadius="lg"
-                    onPress={() => NewEmployee()}
+                    onPress={NewEmployee}
                 >
-                    Entrar
+                    Cadastrar
                 </Button>
             </Box>
         </VStack >
